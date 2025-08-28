@@ -1,6 +1,7 @@
 #![deny(clippy::all)]
 #![forbid(unsafe_code)]
 use Zero::modules::Renderer;
+use Zero::modules::math::Vec2;
 use error_iter::ErrorIter as _;
 use log::error;
 use pixels::{Error, Pixels, SurfaceTexture};
@@ -10,7 +11,7 @@ use winit::event_loop::EventLoop;
 use winit::keyboard::KeyCode;
 use winit::window::WindowBuilder;
 use winit_input_helper::WinitInputHelper;
-use Zero::modules::math::Vec2;
+use Zero::modules::math::Vec2f;
 
 const WIDTH: u32 = 320;
 const HEIGHT: u32 = 240;
@@ -96,9 +97,7 @@ impl Scene {
         }
     }
     /// Update the Scene internal state.
-    fn update(&mut self) {
-
-    }
+    fn update(&mut self) {}
     /// Draw the Scene state to the frame buffer.
     ///
     /// Assumes the default texture format: wgpu::TextureFormat::Rgba8UnormSrgb
@@ -113,13 +112,16 @@ impl Scene {
         }
 
         // 2️⃣ draw objects
-        let center_x = (renderer.width / 2) as i32;
-        let center_y = (renderer.height / 2) as i32;
-        let pixel_pos = Vec2:: 
-        for i in 1..=25{
+        let pos1 = Vec2::new(
+            (renderer.width / 2).try_into().unwrap(),
+            (renderer.width / 2).try_into().unwrap(),
+        );
+        let pos2 = Vec2::new(pos1.x + 43, pos1.y + 59);
 
-        renderer.put_pixel(center_x + i, center_y, fg_color);
-        }
+        let pos3 = Vec2::new(pos1.x - 43, pos2.y - 59);
 
+        renderer.draw_triangle(pos1, pos2, pos3, fg_color, 2.0, true);
     }
+
+    
 }
